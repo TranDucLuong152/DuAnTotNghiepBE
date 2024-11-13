@@ -53,6 +53,12 @@ public class ManageUserController {
                 .result(userService.updateUser(idUser,requestDTO,file))
                 .build();
     }
+    @PutMapping("{id}/delete")
+    public ApiRespone<?> removeUser(@PathVariable("id") UUID idUser) {    	
+    	return ApiRespone.builder()
+                .result(userService.removeUser(idUser))
+                .build();
+    }
     @GetMapping("filter")
     public ApiRespone<?>getUserFromFilter(@RequestParam(required = false) String  username,
     		@RequestParam(required = false) String fullname,

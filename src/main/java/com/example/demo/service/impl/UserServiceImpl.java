@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 		if (userEnitty != null) {
 			throw new RuntimeException("USER_EXISTED");
 		}
-		
+
 		userEnitty = userMapper.toUserEntity(requestDTO);
 		
 		if (file != null) {
@@ -106,6 +106,14 @@ public class UserServiceImpl implements UserService {
 				.orElseThrow(() -> new RuntimeException("USER_NOT_EXISTS"));
 		UserResponeDTO responeDTO = userMapper.toUserResponeDTO(userEnitty);
 		return responeDTO;
+	}
+	@Override
+	public UserResponeDTO removeUser(UUID idUser) {
+		UserEnitty userEnitty = userRepository.findById(idUser)
+				.orElseThrow(() -> new RuntimeException("USER_NOT_EXISTS"));
+		userEnitty.setIsDeleted(true);
+		userRepository.save(userEnitty);
+		return userMapper.toUserResponeDTO(userEnitty);
 	}
 	@Override
 	public Page<UserResponeDTO> getUserFromFilter(String username, String fullname, String isAdmin, String IsChangedPass, Pageable pageable) {
